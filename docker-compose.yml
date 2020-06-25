@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+
+  web:
+    image: "mayannechess/fictiv:latest"
+    ports:
+      - "3003:3003"
+    environment:
+      - PG_USER=$USR
+      - PG_PASS=$PASS
+
+  db:
+    image: "postgres:latest"
+    environment:
+      - POSTGRES_USER=$USR
+      - POSTGRES_PASSWORD=$PASS
+      - POSTGRES_DB=quotes
+    ports: "5432:5432"
+    volumes: quotes-db:/var/lib/postgresql/data
+
+volumes:
+  quotes-db:

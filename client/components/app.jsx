@@ -5,7 +5,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
-    state = {
+    this.state = {
       hello: true
     };
 

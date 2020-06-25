@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon server/index.js",
+    "start": "node server/index.js",
+    "start-dev": "nodemon server/index.js",
     "build-dev": "webpack --mode=development --watch"
   },
   "repository": {
@@ -15,6 +16,9 @@
   "author": "Mayanne Chess",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
+    "morgan": "^1.10.0",
     "pg": "^8.2.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1"
