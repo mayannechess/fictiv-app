@@ -1,0 +1,15 @@
+{
+  "name": "fictiv-app",
+  "version": "1.0.0",
+  "description": "A small app for taking inspiration from classic literature.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mayanne Chess",
+  "license": "ISC",
+  "dependencies": {
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1"
+  }
+}
