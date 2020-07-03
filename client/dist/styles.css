@@ -13,14 +13,20 @@ body {
 }
 
 h1 {
+  font-size: 3em;
+  font-family: "DM Serif Display", serif;
   color: #106EAC;
 }
 
 input {
   font-size: 1.5em;
+  font-weight: 300;
+  font-family: "Open Sans", sans-serif;
+  color: #393a3b;
   text-align: center;
   background: transparent;
   border: none;
+  outline: none;
   border-bottom: 1px solid #393a3b;
   padding: 5px 10px;
 }
@@ -28,9 +34,13 @@ input {
 #search-icon {
   position: absolute;
   height: 25px;
-  top: 70px;
+  opacity: 0.8;
+  top: 110px;
   right: 50%;
   margin-right: -180px;
+}
+#search-icon:hover {
+  cursor: pointer;
 }
 
 #quotes-marquee {
@@ -49,6 +59,7 @@ input {
 .quote-panel {
   width: 25%;
   margin: 25px;
+  font-family: "Open Sans", sans-serif;
 }
 
 .quote-section {
@@ -59,17 +70,24 @@ input {
   width: 40%;
   margin: 25px;
   font-size: 1.5em;
-  font-family: "Times New Roman", serif;
+  font-family: "DM Serif Text", serif;
   color: #106EAC;
 }
 
 .center-section {
   margin: 15px 0;
-  font-size: 0.8em;
+  font-size: 0.75em;
+  font-family: "Open Sans", sans-serif;
+  font-weight: 300;
 }
 
 .arrow {
+  height: 25px;
   z-index: 10;
+  opacity: 0.8;
+}
+.arrow:hover {
+  cursor: pointer;
 }
 
 .mask-left {
