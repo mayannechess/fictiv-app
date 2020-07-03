@@ -1,5 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import axios from "axios";
 
 import Quote from "./quote.jsx";
 
@@ -22,6 +23,12 @@ class App extends React.Component {
       hidden: false
     };
 
+    this.setStateAsync = function(state) {
+      return new Promise((resolve) => {
+        this.setState(state, resolve);
+      });
+    }
+
   }
 
   handleTerm(event) {
@@ -30,21 +37,47 @@ class App extends React.Component {
     });
   }
 
+  search() {
+    this.setStateAsync({
+      hidden: true
+    })
+    .then(() => {
+      return axios.get(`/quotes/${this.state.term}`)
+    })
+    .then(({data}) => {
+      let len = data.length;
+      this.setState({
+        term: "",
+        quotes: data,
+        leftIndex: len - 1,
+        rightIndex: 1
+      });
+    })
+    .then(() => {
+      this.setState({
+        hidden: false
+      });
+    })
+    .catch((err) => {
+      console.log("ERROR:", err);
+    });
+  }
+
   render() {
     return(
       <div>
         <h1>Fictiv</h1>
-        <input type="text" value={this.state.term} placeholder="search" onChange={this.handleTerm} />
-        <button onClick={this.search}>Go</button>
-        <div id="quotes-marquee">
-          {this.state.quotes.length > 0
-            ? <>
-              <Quote className="quote-component" quote={this.state.quotes[leftIndex]} />
-              <Quote className="quote-component" quote={this.state.quotes[centerIndex]} />
-              <Quote className="quote-component" quote={this.state.quotes[rightIndex]} />
-            </>
-            : <Quote className="quote-component" quote={defaultQuote} />}
-        </div>
+        <input type="text" value={this.state.term} placeholder="search" onChange={this.handleTerm.bind(this)} />
+        <button onClick={this.search.bind(this)}>Go</button>
+        {this.state.quotes.length > 0
+          ? <div id="quotes-marquee">
+            {this.state.leftIndex !== 0 ? <Quote className="quote-component" quote={this.state.quotes[this.state.leftIndex]} /> : null}
+            <Quote className="quote-component" quote={this.state.quotes[this.state.centerIndex]} />
+            {this.state.quotes[this.state.rightIndex] ? <Quote className="quote-component" quote={this.state.quotes[this.state.rightIndex]} />: null}
+          </div>
+          : <div id="quotes-marquee">
+            <Quote className="quote-component" quote={defaultQuote} />
+          </div>}
       </div>
     );
   }
