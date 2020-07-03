@@ -21,7 +21,8 @@ class App extends React.Component {
       leftIndex: -1,
       centerIndex: 0,
       rightIndex: 1,
-      hidden: false
+      hidden: false,
+      init: true
     };
 
   }
@@ -78,9 +79,11 @@ class App extends React.Component {
           let len = data.length;
           this.setState({
             quotes: data,
-            leftIndex: len - 1,
+            leftIndex: len - 1 || -1,
+            centerIndex: 0,
             rightIndex: 1,
-            hidden: false
+            hidden: false,
+            init: false
           });
         })
         .catch((err) => {
@@ -97,17 +100,21 @@ class App extends React.Component {
         <img src="search-icon.svg" alt="search" id="search-icon" onClick={this.search.bind(this)} />
         <div className="mask-left"></div>
         <div className="mask-right"></div>
-        {this.state.quotes.length > 0
+        {this.state.init
           ? <div id="quotes-marquee" className={this.state.hidden ? "hidden" : null}>
-            {this.state.quotes.length > 1 ? <img src="back.svg" className="arrow" onClick={this.pageLeft.bind(this)} /> : null}
-            {this.state.quotes[this.state.leftIndex] ? <Quote quote={this.state.quotes[this.state.leftIndex]} /> : null}
-            <CenterQuote quote={this.state.quotes[this.state.centerIndex]} />
-            {this.state.quotes[this.state.rightIndex] ? <Quote quote={this.state.quotes[this.state.rightIndex]} />: null}
-            {this.state.quotes.length > 1 ? <img src="forward.svg" className="arrow" onClick={this.pageRight.bind(this)} /> : null}
-          </div>
-          : <div id="quotes-marquee" className={this.state.hidden ? "hidden" : null}>
             <CenterQuote quote={defaultQuote} />
-          </div>}
+          </div>
+          : this.state.quotes.length > 0
+            ? <div id="quotes-marquee" className={this.state.hidden ? "hidden" : null}>
+              {this.state.quotes.length > 1 ? <img src="back.svg" className="arrow" onClick={this.pageLeft.bind(this)} /> : null}
+              {this.state.quotes[this.state.leftIndex] ? <Quote quote={this.state.quotes[this.state.leftIndex]} /> : null}
+              <CenterQuote quote={this.state.quotes[this.state.centerIndex]} />
+              {this.state.quotes[this.state.rightIndex] ? <Quote quote={this.state.quotes[this.state.rightIndex]} />: null}
+              {this.state.quotes.length > 1 ? <img src="forward.svg" className="arrow" onClick={this.pageRight.bind(this)} /> : null}
+            </div>
+            : <div id="quotes-marquee" className={this.state.hidden ? "hidden" : null}>
+              <h3>No results found.</h3>
+            </div>}
       </div>
     );
   }

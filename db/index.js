@@ -16,6 +16,6 @@ module.exports = {
   getQuotes: function(term) {
     return pool.query("SELECT quotes.author, quotes.publication, quotes.content FROM quotes \
                       WHERE to_tsvector('english', content) @@ to_tsquery('english', $1) \
-                      AND length(content) < 251", [term]);
+                      AND length(content) < 251 ORDER BY random() LIMIT 100", [term]);
   }
 };
