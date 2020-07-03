@@ -1,11 +1,25 @@
 body {
   font-family: Helvetica, Arial, sans-serif;
+  background-color: #eaf4ff;
 }
 
 #app {
   width: 80%;
   margin: 0 auto;
   text-align: center;
+  color: #393a3b;
+}
+
+h1 {
+  color: #106EAC;
+}
+
+#quotes-marquee {
+  transition: opacity 500ms;
+}
+
+.hidden {
+  opacity: 0;
 }
 
 /*# sourceMappingURL=styles.css.map */

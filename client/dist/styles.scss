@@ -1,12 +1,27 @@
-$clr-main: blue;
-$clr-text: black;
+$clr-bg: #eaf4ff;
+$clr-main: #106EAC;
+$clr-text: #393a3b;
 
 body {
   font-family: Helvetica, Arial, sans-serif;
+  background-color: $clr-bg;
 }
 
 #app {
   width: 80%;
   margin: 0 auto;
   text-align: center;
+  color: $clr-text;
+}
+
+h1 {
+  color: $clr-main;
+}
+
+#quotes-marquee {
+  transition: opacity 500ms;
+}
+
+.hidden {
+  opacity: 0;
 }

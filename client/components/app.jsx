@@ -23,11 +23,11 @@ class App extends React.Component {
       hidden: false
     };
 
-    this.setStateAsync = function(state) {
-      return new Promise((resolve) => {
-        this.setState(state, resolve);
-      });
-    }
+    // this.setStateAsync = function(state) {
+    //   return new Promise((resolve) => {
+    //     this.setState(state, resolve);
+    //   });
+    // }
 
   }
 
@@ -38,29 +38,26 @@ class App extends React.Component {
   }
 
   search() {
-    this.setStateAsync({
+    this.setState({
       hidden: true
-    })
-    .then(() => {
-      return axios.get(`/quotes/${this.state.term}`)
-    })
-    .then(({data}) => {
-      let len = data.length;
-      this.setState({
-        term: "",
-        quotes: data,
-        leftIndex: len - 1,
-        rightIndex: 1
-      });
-    })
-    .then(() => {
-      this.setState({
-        hidden: false
-      });
-    })
-    .catch((err) => {
-      console.log("ERROR:", err);
     });
+
+    setTimeout(() => {
+      axios.get(`/quotes/${this.state.term}`)
+        .then(({data}) => {
+          let len = data.length;
+          this.setState({
+            term: "",
+            quotes: data,
+            leftIndex: len - 1,
+            rightIndex: 1,
+            hidden: false
+          });
+        })
+        .catch((err) => {
+          console.log("ERROR:", err);
+        });
+    }, 500);
   }
 
   render() {
@@ -70,13 +67,13 @@ class App extends React.Component {
         <input type="text" value={this.state.term} placeholder="search" onChange={this.handleTerm.bind(this)} />
         <button onClick={this.search.bind(this)}>Go</button>
         {this.state.quotes.length > 0
-          ? <div id="quotes-marquee">
-            {this.state.leftIndex !== 0 ? <Quote className="quote-component" quote={this.state.quotes[this.state.leftIndex]} /> : null}
-            <Quote className="quote-component" quote={this.state.quotes[this.state.centerIndex]} />
-            {this.state.quotes[this.state.rightIndex] ? <Quote className="quote-component" quote={this.state.quotes[this.state.rightIndex]} />: null}
+          ? <div id="quotes-marquee" className={this.state.hidden ? "hidden" : null}>
+            {this.state.leftIndex !== 0 ? <Quote quote={this.state.quotes[this.state.leftIndex]} /> : null}
+            <Quote quote={this.state.quotes[this.state.centerIndex]} />
+            {this.state.quotes[this.state.rightIndex] ? <Quote quote={this.state.quotes[this.state.rightIndex]} />: null}
           </div>
-          : <div id="quotes-marquee">
-            <Quote className="quote-component" quote={defaultQuote} />
+          : <div id="quotes-marquee" className={this.state.hidden ? "hidden" : null}>
+            <Quote quote={defaultQuote} />
           </div>}
       </div>
     );
