@@ -15,6 +15,7 @@ const pool = new Pool({
 module.exports = {
   getQuotes: function(term) {
     return pool.query("SELECT quotes.author, quotes.publication, quotes.content FROM quotes \
-                      WHERE to_tsvector('english', content) @@ to_tsquery('english', $1)", [term]);
+                      WHERE to_tsvector('english', content) @@ to_tsquery('english', $1) \
+                      AND length(content) < 251", [term]);
   }
 };

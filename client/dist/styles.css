@@ -4,7 +4,9 @@ body {
 }
 
 #app {
+  position: relative;
   width: 80%;
+  max-width: 960px;
   margin: 0 auto;
   text-align: center;
   color: #393a3b;
@@ -14,11 +16,30 @@ h1 {
   color: #106EAC;
 }
 
+input {
+  font-size: 1.5em;
+  text-align: center;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #393a3b;
+  padding: 5px 10px;
+}
+
+#search-icon {
+  position: absolute;
+  height: 25px;
+  top: 70px;
+  right: 50%;
+  margin-right: -180px;
+}
+
 #quotes-marquee {
   transition: opacity 500ms;
   display: flex;
   flex-direction: row;
   justify-content: center;
+  align-items: center;
+  margin-top: 40px;
 }
 
 .hidden {
@@ -32,6 +53,41 @@ h1 {
 
 .quote-section {
   margin: 10px 0;
+}
+
+.center-panel {
+  width: 40%;
+  margin: 25px;
+  font-size: 1.5em;
+  font-family: "Times New Roman", serif;
+  color: #106EAC;
+}
+
+.center-section {
+  margin: 15px 0;
+  font-size: 0.8em;
+}
+
+.arrow {
+  z-index: 10;
+}
+
+.mask-left {
+  position: absolute;
+  z-index: 5;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(to left, #FFFFFF00, #eaf4ff 75%);
+  left: 0;
+}
+
+.mask-right {
+  position: absolute;
+  z-index: 5;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(to right, #FFFFFF00, #eaf4ff 75%);
+  right: 0;
 }
 
 /*# sourceMappingURL=styles.css.map */

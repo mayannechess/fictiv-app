@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import axios from "axios";
 
 import Quote from "./quote.jsx";
+import CenterQuote from "./centerQuote.jsx"
 
 const defaultQuote = {
   author: "G.K. Chesterson",
@@ -17,18 +18,47 @@ class App extends React.Component {
     this.state = {
       term: "",
       quotes: [],
-      leftIndex: 0,
+      leftIndex: -1,
       centerIndex: 0,
-      rightIndex: 0,
+      rightIndex: 1,
       hidden: false
     };
 
-    // this.setStateAsync = function(state) {
-    //   return new Promise((resolve) => {
-    //     this.setState(state, resolve);
-    //   });
-    // }
+  }
 
+  pageRight() {
+    this.setState({
+      hidden: true
+    });
+    setTimeout(() => {
+      let newLeft = this.state.leftIndex + 1 >= this.state.quotes.length ? 0 : this.state.leftIndex + 1;
+      let newCenter = this.state.centerIndex + 1 >= this.state.quotes.length ? 0 : this.state.centerIndex + 1;
+      let newRight = this.state.rightIndex + 1 >= this.state.quotes.length ? 0 : this.state.rightIndex + 1;
+      this.setState({
+        leftIndex: newLeft,
+        centerIndex: newCenter,
+        rightIndex: newRight,
+        hidden: false
+      });
+    }, 500);
+  }
+
+  pageLeft() {
+    this.setState({
+      hidden: true
+    });
+
+    setTimeout(() => {
+      let newLeft = this.state.leftIndex - 1 < 0 ? this.state.quotes.length - 1 : this.state.leftIndex - 1;
+      let newCenter = this.state.centerIndex - 1 < 0 ? this.state.quotes.length - 1 : this.state.centerIndex - 1;
+      let newRight = this.state.rightIndex - 1 < 0 ? this.state.quotes.length - 1 : this.state.rightIndex - 1;
+      this.setState({
+        leftIndex: newLeft,
+        centerIndex: newCenter,
+        rightIndex: newRight,
+        hidden: false
+      });
+    }, 500);
   }
 
   handleTerm(event) {
@@ -47,7 +77,6 @@ class App extends React.Component {
         .then(({data}) => {
           let len = data.length;
           this.setState({
-            term: "",
             quotes: data,
             leftIndex: len - 1,
             rightIndex: 1,
@@ -65,15 +94,19 @@ class App extends React.Component {
       <div>
         <h1>Fictiv</h1>
         <input type="text" value={this.state.term} placeholder="search" onChange={this.handleTerm.bind(this)} />
-        <button onClick={this.search.bind(this)}>Go</button>
+        <img src="search-icon.svg" alt="search" id="search-icon" onClick={this.search.bind(this)} />
+        <div className="mask-left"></div>
+        <div className="mask-right"></div>
         {this.state.quotes.length > 0
           ? <div id="quotes-marquee" className={this.state.hidden ? "hidden" : null}>
-            {this.state.leftIndex !== 0 ? <Quote quote={this.state.quotes[this.state.leftIndex]} /> : null}
-            <Quote quote={this.state.quotes[this.state.centerIndex]} />
+            {this.state.quotes.length > 1 ? <div className="arrow" onClick={this.pageLeft.bind(this)}>{"<<"}</div> : null}
+            {this.state.quotes[this.state.leftIndex] ? <Quote quote={this.state.quotes[this.state.leftIndex]} /> : null}
+            <CenterQuote quote={this.state.quotes[this.state.centerIndex]} />
             {this.state.quotes[this.state.rightIndex] ? <Quote quote={this.state.quotes[this.state.rightIndex]} />: null}
+            {this.state.quotes.length > 1 ? <div className="arrow" onClick={this.pageRight.bind(this)}>{">>"}</div> : null}
           </div>
           : <div id="quotes-marquee" className={this.state.hidden ? "hidden" : null}>
-            <Quote quote={defaultQuote} />
+            <CenterQuote quote={defaultQuote} />
           </div>}
       </div>
     );
