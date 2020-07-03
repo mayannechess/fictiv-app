@@ -1,16 +1,20 @@
 
 const { Pool } = require("pg");
+const { DB_USER, DB_PASSWORD, DB_HOST } = require("./config.js");
+
+const host = process.env.PG_USER ? "fictiv_db" : DB_HOST;
 
 const pool = new Pool({
-  host: "db",
+  host: host,
   database: "quotes",
-  user: process.env.PG_USER,
-  password: process.env.PG_PASS,
+  user: process.env.PG_USER || DB_USER,
+  password: process.env.PG_PASS || DB_PASSWORD,
   port: 5432
 });
 
 module.exports = {
-  query: function(text, params) {
-    return pool.query(text, params);
+  getQuotes: function(term) {
+    return pool.query("SELECT quotes.author, quotes.publication, quotes.content FROM quotes \
+                      WHERE to_tsvector('english', content) @@ to_tsquery('english', $1)", [term]);
   }
 };
