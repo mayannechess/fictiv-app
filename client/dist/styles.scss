@@ -20,8 +20,20 @@ h1 {
 
 #quotes-marquee {
   transition: opacity 500ms;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }
 
 .hidden {
   opacity: 0;
+}
+
+.quote-panel {
+  width: 25%;
+  margin: 25px;
+}
+
+.quote-section {
+  margin: 10px 0;
 }

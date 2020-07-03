@@ -13,9 +13,9 @@ class Quote extends React.Component {
   render() {
     return(
       <div className="quote-panel">
-        <div>{this.props.quote.content}</div>
-        <div>{this.props.quote.author}</div>
-        <div>{this.props.quote.publication}</div>
+        <div className="quote-section">{this.props.quote.content}</div>
+        <div className="quote-section">{this.props.quote.author}</div>
+        <div className="quote-section"><em>{this.props.quote.publication}</em></div>
       </div>
     );
   }
