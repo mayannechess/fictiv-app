@@ -74,6 +74,29 @@ input {
   color: #106EAC;
 }
 
+.center-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.center-content div {
+  margin: auto 2.5px;
+  position: relative;
+  color: #eaf4ff;
+}
+.center-content div span {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #106EAC;
+  z-index: 1;
+  white-space: nowrap;
+}
+.center-content div span:hover {
+  cursor: pointer;
+}
+
 .center-section {
   margin: 15px 0;
   font-size: 0.75em;
@@ -97,6 +120,7 @@ input {
   height: 100%;
   background: linear-gradient(to left, #FFFFFF00, #eaf4ff 75%);
   left: 0;
+  pointer-events: none;
 }
 
 .mask-right {
@@ -106,6 +130,7 @@ input {
   height: 100%;
   background: linear-gradient(to right, #FFFFFF00, #eaf4ff 75%);
   right: 0;
+  pointer-events: none;
 }
 
 h3 {

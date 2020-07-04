@@ -68,16 +68,17 @@ class App extends React.Component {
     });
   }
 
-  search() {
+  search(term) {
     this.setState({
       hidden: true
     });
 
     setTimeout(() => {
-      axios.get(`/quotes/${this.state.term}`)
+      axios.get(`/quotes/${term}`)
         .then(({data}) => {
           let len = data.length;
           this.setState({
+            term: term,
             quotes: data,
             leftIndex: len - 1 || -1,
             centerIndex: 0,
@@ -96,19 +97,28 @@ class App extends React.Component {
     return(
       <div>
         <h1>Fictiv</h1>
-        <input type="text" value={this.state.term} placeholder="search" onChange={this.handleTerm.bind(this)} />
-        <img src="search-icon.svg" alt="search" id="search-icon" onClick={this.search.bind(this)} />
+        <input
+          type="text"
+          value={this.state.term}
+          placeholder="search"
+          onChange={this.handleTerm.bind(this)}
+          onKeyDown={(event) => {
+            if (event.key === "Enter") {
+              this.search.bind(this)(this.state.term);
+            }
+          }} />
+        <img src="search-icon.svg" alt="search" id="search-icon" onClick={() => this.search.bind(this)(this.state.term)} />
         <div className="mask-left"></div>
         <div className="mask-right"></div>
         {this.state.init
           ? <div id="quotes-marquee" className={this.state.hidden ? "hidden" : null}>
-            <CenterQuote quote={defaultQuote} />
+            <CenterQuote quote={defaultQuote} search={this.search.bind(this)} />
           </div>
           : this.state.quotes.length > 0
             ? <div id="quotes-marquee" className={this.state.hidden ? "hidden" : null}>
               {this.state.quotes.length > 1 ? <img src="back.svg" className="arrow" onClick={this.pageLeft.bind(this)} /> : null}
               {this.state.quotes[this.state.leftIndex] ? <Quote quote={this.state.quotes[this.state.leftIndex]} /> : null}
-              <CenterQuote quote={this.state.quotes[this.state.centerIndex]} />
+              <CenterQuote quote={this.state.quotes[this.state.centerIndex]} search={this.search.bind(this)} />
               {this.state.quotes[this.state.rightIndex] ? <Quote quote={this.state.quotes[this.state.rightIndex]} />: null}
               {this.state.quotes.length > 1 ? <img src="forward.svg" className="arrow" onClick={this.pageRight.bind(this)} /> : null}
             </div>

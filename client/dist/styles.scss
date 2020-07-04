@@ -78,6 +78,29 @@ input {
   color: $clr-main;
 }
 
+.center-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  & div {
+    margin: auto 2.5px;
+    position: relative;
+    color: $clr-bg;
+    & span {
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: $clr-main;
+      z-index: 1;
+      white-space: nowrap;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+  }
+}
+
 .center-section {
   margin: 15px 0;
   font-size: .75em;
@@ -101,6 +124,7 @@ input {
   height: 100%;
   background: linear-gradient(to left, #FFFFFF00, $clr-bg 75%);
   left: 0;
+  pointer-events: none;
 }
 
 .mask-right {
@@ -110,6 +134,7 @@ input {
   height: 100%;
   background: linear-gradient(to right, #FFFFFF00, $clr-bg 75%);
   right: 0;
+  pointer-events: none;
 }
 
 h3 {
