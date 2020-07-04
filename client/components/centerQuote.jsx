@@ -1,6 +1,8 @@
 import React from "react";
 import $ from "jquery";
 
+import { fixLineBreaks, separateDashes } from "../utils.js";
+
 class CenterQuote extends React.Component {
   constructor(props) {
     super(props);
@@ -11,7 +13,7 @@ class CenterQuote extends React.Component {
   }
 
   onFocus(event) {
-    let focus = event.target.innerHTML.replace(/\?|\,|\.|\;|\:/, "").toLowerCase();
+    let focus = event.target.innerHTML.replace(/\?|\,|\.|\;|\:|\!/g, "").toLowerCase();
     $(event.target).css("color", "#0d4b75");
     $(event.target).animate({top: "-5%", left: "-5%", fontSize: "1.1em"});
     this.setState({
@@ -32,7 +34,9 @@ class CenterQuote extends React.Component {
   }
 
   render() {
-    let words = this.props.quote.content.split(" ");
+    let text = fixLineBreaks(this.props.quote.content);
+    text = separateDashes(text);
+    let words = text.split(" ");
 
     return(
       <div className="center-panel">
