@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import $ from "jquery";
 
 import { fixLineBreaks, separateDashes } from "../utils.js";
@@ -7,30 +8,33 @@ class CenterQuote extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      focus: "",
-    }
   }
 
   onFocus(event) {
-    let focus = event.target.innerHTML.replace(/\?|\,|\.|\;|\:|\!/g, "").toLowerCase();
     $(event.target).css("color", "#0d4b75");
     $(event.target).animate({top: "-5%", left: "-5%", fontSize: "1.1em"});
-    this.setState({
-      focus: focus
-    });
   }
 
   onUnfocus(event) {
     $(event.target).css("color", "#106EAC");
     $(event.target).animate({top: "0", left: "0", fontSize: "1em"});
-    this.setState({
-      focus: ""
-    });
   }
 
-  onClick() {
-    this.props.search(this.state.focus);
+  onClick(event) {
+    let focus = event.target.innerHTML.replace(/\?|\,|\.|\;|\:|\!/g, "").toLowerCase();
+    this.props.search(focus);
+  }
+
+  linkOut() {
+    let pub = this.props.quote.publication.split(" ").join("+");
+    axios.get(`https://www.googleapis.com/books/v1/volumes?q=intitle:${pub}`)
+      .then(({data}) => {
+        let link = `http://books.google.com/books?id=${data.items[0].id}`;
+        window.open(link, "bookWindowName");
+      })
+      .catch((err) => {
+        console.log("ERROR:", err);
+      });
   }
 
   render() {
@@ -47,13 +51,16 @@ class CenterQuote extends React.Component {
                 onMouseOver={this.onFocus.bind(this)}
                 onClick={this.onClick.bind(this)}
                 onMouseLeave={this.onUnfocus.bind(this)}
-                key={idx}>{word}
+              >
+                {word}
               </span>
             </div>
           })
         }</div>
         <div className="center-section">{this.props.quote.author}</div>
-        <div className="center-section"><em>{this.props.quote.publication}</em></div>
+        {this.props.quote.publication
+          ? <div className="center-section" onClick={this.linkOut.bind(this)}><em>{this.props.quote.publication}</em></div>
+          : null}
       </div>
     );
   }

@@ -1,5 +1,6 @@
 $clr-bg: #eaf4ff;
 $clr-main: #106EAC;
+$clr-accent: #0d4b75;
 $clr-text: #393a3b;
 
 body {
@@ -71,6 +72,7 @@ input {
 }
 
 .center-panel {
+  position: relative;
   width: 40%;
   margin: 25px;
   font-size: 1.5em;
@@ -106,6 +108,20 @@ input {
   font-size: .75em;
   font-family: 'Open Sans', sans-serif;
   font-weight: 300;
+}
+
+.center-section em {
+  &:hover {
+    cursor: pointer;
+    color: $clr-accent;
+  }
+  &::after {
+    content: url("external-link.png");
+    position: relative;
+    opacity: .8;
+    top: 4px;
+    left: 3px;
+  }
 }
 
 .arrow {
