@@ -1,6 +1,6 @@
 
 const { Pool } = require("pg");
-const { DB_USER, DB_PASSWORD, DB_HOST } = require("./config.js");
+const { DB_USER, DB_PASSWORD, DB_HOST } = require("../config.js");
 
 const host = process.env.PG_USER ? "fictiv_db" : DB_HOST;
 

@@ -10,6 +10,14 @@ body {
   margin: 0 auto;
   text-align: center;
   color: #393a3b;
+  cursor: default;
+}
+
+#suggest {
+  color: #106EAC;
+  text-align: right;
+  font-size: 0.7em;
+  font-family: "DM Serif Text", serif;
 }
 
 h1 {
@@ -29,13 +37,31 @@ input {
   outline: none;
   border-bottom: 1px solid #393a3b;
   padding: 5px 10px;
+  cursor: text;
+}
+
+#suggest input {
+  font-size: 0.9em;
+  font-weight: 400;
+  text-align: left;
+  padding: 1px 5px;
+}
+
+#submit-icon {
+  width: 17px;
+  margin-left: 5px;
+  margin-bottom: -5px;
+  opacity: 0.8;
+}
+#submit-icon:hover {
+  cursor: pointer;
 }
 
 #search-icon {
   position: absolute;
   height: 25px;
   opacity: 0.8;
-  top: 110px;
+  top: 163px;
   right: 50%;
   margin-right: -180px;
 }
@@ -110,7 +136,7 @@ input {
   color: #0d4b75;
 }
 .center-section em::after {
-  content: url("external-link.png");
+  content: url("./assets/external-link.png");
   position: relative;
   opacity: 0.8;
   top: 4px;

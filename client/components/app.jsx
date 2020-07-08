@@ -17,6 +17,7 @@ class App extends React.Component {
 
     this.state = {
       term: "",
+      suggestion: "",
       quotes: [],
       leftIndex: -1,
       centerIndex: 0,
@@ -62,9 +63,9 @@ class App extends React.Component {
     }, 500);
   }
 
-  handleTerm(event) {
+  handleInput(event) {
     this.setState({
-      term: event.target.value
+      [event.target.name]: event.target.value
     });
   }
 
@@ -93,21 +94,50 @@ class App extends React.Component {
     }, 500);
   }
 
+  suggest() {
+    axios.post("/suggest", {
+      author: this.state.suggestion
+    })
+      .catch((err) => {
+        console.log(err);
+      });
+    this.setState({
+      suggestion: "Thanks!"
+    });
+  }
+
+  clickIn(event) {
+    this.setState({
+      [event.target.name]: ""
+    });
+  }
+
   render() {
     return(
       <div>
+        <div id="suggest">
+          Suggest an author: <input
+          type="text"
+          name="suggestion"
+          value={this.state.suggestion}
+          onClick={this.clickIn.bind(this)}
+          onChange={this.handleInput.bind(this)} />
+          <img src="./assets/submit.png" alt="submit" id="submit-icon" onClick={this.suggest.bind(this)} />
+        </div>
         <h1>Fictiv</h1>
         <input
           type="text"
+          name="term"
           value={this.state.term}
           placeholder="search"
-          onChange={this.handleTerm.bind(this)}
+          onClick={this.clickIn.bind(this)}
+          onChange={this.handleInput.bind(this)}
           onKeyDown={(event) => {
             if (event.key === "Enter") {
               this.search.bind(this)(this.state.term);
             }
           }} />
-        <img src="search-icon.svg" alt="search" id="search-icon" onClick={() => this.search.bind(this)(this.state.term)} />
+        <img src="./assets/search-icon.svg" alt="search" id="search-icon" onClick={() => this.search.bind(this)(this.state.term)} />
         <div className="mask-left"></div>
         <div className="mask-right"></div>
         {this.state.init
@@ -116,11 +146,11 @@ class App extends React.Component {
           </div>
           : this.state.quotes.length > 0
             ? <div id="quotes-marquee" className={this.state.hidden ? "hidden" : null}>
-              {this.state.quotes.length > 1 ? <img src="back.svg" className="arrow" onClick={this.pageLeft.bind(this)} /> : null}
+              {this.state.quotes.length > 1 ? <img src="./assets/back.svg" className="arrow" onClick={this.pageLeft.bind(this)} /> : null}
               {this.state.quotes[this.state.leftIndex] ? <Quote quote={this.state.quotes[this.state.leftIndex]} /> : null}
               <CenterQuote quote={this.state.quotes[this.state.centerIndex]} search={this.search.bind(this)} />
               {this.state.quotes[this.state.rightIndex] ? <Quote quote={this.state.quotes[this.state.rightIndex]} />: null}
-              {this.state.quotes.length > 1 ? <img src="forward.svg" className="arrow" onClick={this.pageRight.bind(this)} /> : null}
+              {this.state.quotes.length > 1 ? <img src="./assets/forward.svg" className="arrow" onClick={this.pageRight.bind(this)} /> : null}
             </div>
             : <div id="quotes-marquee" className={this.state.hidden ? "hidden" : null}>
               <h3>No results found.</h3>

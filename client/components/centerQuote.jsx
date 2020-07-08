@@ -48,6 +48,7 @@ class CenterQuote extends React.Component {
           words.map((word, idx) => {
             return <div key={idx}>{word}
               <span
+                // id={idx === 0 ? "first-word" : idx === words.length - 1 ? "last-word" : null}
                 onMouseOver={this.onFocus.bind(this)}
                 onClick={this.onClick.bind(this)}
                 onMouseLeave={this.onUnfocus.bind(this)}
